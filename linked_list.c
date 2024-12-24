@@ -8,28 +8,30 @@ struct node
 };
 typedef struct node node_t;
 
-node_t *add_node(node_t *head, int value)
+void add_node(node_t **head, int value)
 {
     node_t *new_node = malloc(sizeof(node_t));
     if (new_node == NULL)
     {
-        return NULL;
+        printf("Error allocating new node.\n");
+        exit(1);
     }
 
-    if (head == NULL)
+    if (*head == NULL)
     {
         new_node->value = value;
         new_node->next = NULL;
-        return new_node;
+        *head = new_node;
+        return;
     }
     else
     {
-        node_t *tmp = head;
+        node_t *tmp = *head;
         new_node->value = value;
         new_node->next = tmp;
-        head = new_node;
+        *head = new_node;
 
-        return head;
+        return;
     }
 }
 
@@ -44,9 +46,9 @@ void print_list(node_t *head)
     printf("NULL\n");
 }
 
-node_t *revert_list(node_t *head)
+void revert_list(node_t **head)
 {
-    node_t *curr = head;
+    node_t *curr = *head;
     node_t *prev = NULL;
     while (curr->next != NULL)
     {
@@ -55,7 +57,8 @@ node_t *revert_list(node_t *head)
         prev = curr;
         curr = tmp;
     }
-    return prev;
+    *head = prev; 
+    return;
 }
 
 int main(int argc, char *argv[])
@@ -64,10 +67,16 @@ int main(int argc, char *argv[])
 
     for (int i = 0; i < argc; i++)
     {
-        head = add_node(head, atoi(argv[i]));
+        add_node(&head, atoi(argv[i]));
     }
 
-    print_list(revert_list(head));
+    // printf("head: %p\n", head);
+
+    revert_list(&head);
+
+    // printf("head: %p\n", head);
+
+    print_list(head);
 
     return 0;
 }
