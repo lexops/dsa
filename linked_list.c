@@ -50,33 +50,42 @@ void revert_list(node_t **head)
 {
     node_t *curr = *head;
     node_t *prev = NULL;
-    while (curr->next != NULL)
+    while (curr != NULL)
     {
         node_t *tmp = curr->next;
         curr->next = prev;
         prev = curr;
         curr = tmp;
     }
-    *head = prev; 
+    *head = prev;
     return;
+}
+
+void delete_list(node_t *head)
+{
+    node_t *curr = head;
+    while (curr != NULL)
+    {
+      node_t *aux = curr->next;
+      free(curr);
+      curr = aux;
+    }
 }
 
 int main(int argc, char *argv[])
 {
     node_t *head = NULL;
 
-    for (int i = 0; i < argc; i++)
+    for (int i = 1; i < argc; i++)
     {
         add_node(&head, atoi(argv[i]));
     }
 
-    // printf("head: %p\n", head);
-
     revert_list(&head);
 
-    // printf("head: %p\n", head);
-
     print_list(head);
+
+    delete_list(head);
 
     return 0;
 }
