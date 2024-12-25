@@ -13,6 +13,7 @@ void add_node(node **head, int value)
     if (new_node == NULL)
     {
         printf("Error allocating new node.\n");
+        delete_list(*head);
         exit(1);
     }
 
