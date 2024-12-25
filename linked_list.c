@@ -1,16 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct node
+typedef struct node
 {
     int value;
     struct node *next;
-};
-typedef struct node node_t;
+} node;
 
-void add_node(node_t **head, int value)
+void add_node(node **head, int value)
 {
-    node_t *new_node = malloc(sizeof(node_t));
+    node *new_node = malloc(sizeof(node));
     if (new_node == NULL)
     {
         printf("Error allocating new node.\n");
@@ -26,7 +25,7 @@ void add_node(node_t **head, int value)
     }
     else
     {
-        node_t *tmp = *head;
+        node *tmp = *head;
         new_node->value = value;
         new_node->next = tmp;
         *head = new_node;
@@ -35,9 +34,9 @@ void add_node(node_t **head, int value)
     }
 }
 
-void print_list(node_t *head)
+void print_list(node *head)
 {
-    node_t *curr = head;
+    node *curr = head;
     while (curr != NULL)
     {
         printf("%d -> ", curr->value);
@@ -46,13 +45,13 @@ void print_list(node_t *head)
     printf("NULL\n");
 }
 
-void revert_list(node_t **head)
+void revert_list(node **head)
 {
-    node_t *curr = *head;
-    node_t *prev = NULL;
+    node *curr = *head;
+    node *prev = NULL;
     while (curr != NULL)
     {
-        node_t *tmp = curr->next;
+        node *tmp = curr->next;
         curr->next = prev;
         prev = curr;
         curr = tmp;
@@ -61,20 +60,20 @@ void revert_list(node_t **head)
     return;
 }
 
-void delete_list(node_t *head)
+void delete_list(node *head)
 {
-    node_t *curr = head;
+    node *curr = head;
     while (curr != NULL)
     {
-      node_t *aux = curr->next;
-      free(curr);
-      curr = aux;
+        node *aux = curr->next;
+        free(curr);
+        curr = aux;
     }
 }
 
 int main(int argc, char *argv[])
 {
-    node_t *head = NULL;
+    node *head = NULL;
 
     for (int i = 1; i < argc; i++)
     {
