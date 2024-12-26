@@ -7,6 +7,17 @@ typedef struct node
     struct node *next;
 } node;
 
+void delete_list(node *head)
+{
+    node *curr = head;
+    while (curr != NULL)
+    {
+        node *aux = curr->next;
+        free(curr);
+        curr = aux;
+    }
+}
+
 void add_node(node **head, int value)
 {
     node *new_node = malloc(sizeof(node));
@@ -59,17 +70,6 @@ void revert_list(node **head)
     }
     *head = prev;
     return;
-}
-
-void delete_list(node *head)
-{
-    node *curr = head;
-    while (curr != NULL)
-    {
-        node *aux = curr->next;
-        free(curr);
-        curr = aux;
-    }
 }
 
 int main(int argc, char *argv[])
