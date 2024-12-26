@@ -1,29 +1,29 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct node
+typedef struct Node
 {
     int value;
-    struct node *next;
-} node;
+    struct Node *next;
+} Node;
 
-void delete_list(node *head)
+void delete_list(Node *head)
 {
-    node *curr = head;
+    Node *curr = head;
     while (curr != NULL)
     {
-        node *aux = curr->next;
+        Node *next = curr->next;
         free(curr);
-        curr = aux;
+        curr = next;
     }
 }
 
-void add_node(node **head, int value)
+void add(Node **head, int value)
 {
-    node *new_node = malloc(sizeof(node));
+    Node *new_node = malloc(sizeof(Node));
     if (new_node == NULL)
     {
-        printf("Error allocating new node.\n");
+        printf("Error allocating new_node.\n");
         delete_list(*head);
         exit(1);
     }
@@ -37,7 +37,7 @@ void add_node(node **head, int value)
     }
     else
     {
-        node *tmp = *head;
+        Node *tmp = *head;
         new_node->value = value;
         new_node->next = tmp;
         *head = new_node;
@@ -46,9 +46,9 @@ void add_node(node **head, int value)
     }
 }
 
-void print_list(node *head)
+void print_list(Node *head)
 {
-    node *curr = head;
+    Node *curr = head;
     while (curr != NULL)
     {
         printf("%d -> ", curr->value);
@@ -57,16 +57,16 @@ void print_list(node *head)
     printf("NULL\n");
 }
 
-void revert_list(node **head)
+void revert_list(Node **head)
 {
-    node *curr = *head;
-    node *prev = NULL;
+    Node *curr = *head;
+    Node *prev = NULL;
     while (curr != NULL)
     {
-        node *tmp = curr->next;
+        Node *next = curr->next;
         curr->next = prev;
         prev = curr;
-        curr = tmp;
+        curr = next;
     }
     *head = prev;
     return;
@@ -74,11 +74,11 @@ void revert_list(node **head)
 
 int main(int argc, char *argv[])
 {
-    node *head = NULL;
+    Node *head = NULL;
 
     for (int i = 1; i < argc; i++)
     {
-        add_node(&head, atoi(argv[i]));
+        add(&head, atoi(argv[i]));
     }
 
     revert_list(&head);
