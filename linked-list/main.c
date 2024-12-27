@@ -18,9 +18,10 @@ void delete_list(Node *head)
     }
 }
 
-void add(Node **head, int value)
+void add_node(Node **head, int value)
 {
     Node *new_node = malloc(sizeof(Node));
+
     if (new_node == NULL)
     {
         printf("Error allocating new_node.\n");
@@ -30,20 +31,17 @@ void add(Node **head, int value)
 
     if (*head == NULL)
     {
-        new_node->value = value;
         new_node->next = NULL;
-        *head = new_node;
-        return;
     }
     else
     {
         Node *tmp = *head;
-        new_node->value = value;
         new_node->next = tmp;
-        *head = new_node;
-
-        return;
     }
+
+    new_node->value = value;
+    *head = new_node;
+    return;
 }
 
 void print_list(Node *head)
@@ -59,8 +57,9 @@ void print_list(Node *head)
 
 void revert_list(Node **head)
 {
-    Node *curr = *head;
     Node *prev = NULL;
+    Node *curr = *head;
+
     while (curr != NULL)
     {
         Node *next = curr->next;
@@ -68,6 +67,7 @@ void revert_list(Node **head)
         prev = curr;
         curr = next;
     }
+
     *head = prev;
     return;
 }
@@ -78,7 +78,7 @@ int main(int argc, char *argv[])
 
     for (int i = 1; i < argc; i++)
     {
-        add(&head, atoi(argv[i]));
+        add_node(&head, atoi(argv[i]));
     }
 
     revert_list(&head);
