@@ -8,11 +8,23 @@ typedef struct Node
     struct Node *prev;
 } Node;
 
+void delete_list(Node **head)
+{
+    Node *curr = *head;
+    while (curr != NULL)
+    {
+        Node *next = curr->next;
+        free(curr);
+        curr = next;
+    }
+}
+
 void add_node(Node **head, int value)
 {
     Node *new_node = malloc(sizeof(Node));
     if (new_node == NULL)
     {
+        delete_list(head);
         printf("Node allocation failed.\n");
         exit(1);
     }
@@ -56,17 +68,6 @@ void revert_list(Node **head)
         curr->next = curr->prev;
         curr->prev = next;
         *head = curr;
-        curr = next;
-    }
-}
-
-void delete_list(Node **head)
-{
-    Node *curr = *head;
-    while (curr != NULL)
-    {
-        Node *next = curr->next;
-        free(curr);
         curr = next;
     }
 }
